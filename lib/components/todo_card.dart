@@ -22,7 +22,7 @@ class _TodoCardState extends State<TodoCard> {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => Todo(
+                  builder: (context) => TodoPage(
                         title: widget.title,
                       )));
         },

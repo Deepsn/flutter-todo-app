@@ -25,10 +25,10 @@ class TodoApp extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
-            return Todos();
+            return TodosPage();
           }
 
-          return Loading();
+          return LoadingPage();
         });
   }
 }

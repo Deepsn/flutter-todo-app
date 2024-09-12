@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Todo extends StatelessWidget {
-  const Todo({super.key, required this.title});
+class TodoPage extends StatelessWidget {
+  const TodoPage({super.key, required this.title});
 
   final String title;
 

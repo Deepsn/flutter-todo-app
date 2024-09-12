@@ -55,6 +55,7 @@ class DefaultFirebaseOptions {
     authDomain: dotenv.env['FIREBASE_WEB_AUTH_DOMAIN']!,
     storageBucket: dotenv.env['FIREBASE_WEB_STORAGE_BUCKET']!,
     measurementId: dotenv.env['FIREBASE_WEB_MEASUREMENT_ID']!,
+    databaseURL: dotenv.env['FIREBASE_WEB_DATABASE_URL']!,
   );
 
   static FirebaseOptions android = FirebaseOptions(
@@ -63,6 +64,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: dotenv.env['FIREBASE_ANDROID_MESSAGING_SENDER_ID']!,
     projectId: dotenv.env['FIREBASE_ANDROID_PROJECT_ID']!,
     storageBucket: dotenv.env['FIREBASE_ANDROID_STORAGE_BUCKET']!,
+    databaseURL: dotenv.env['FIREBASE_ANDROID_DATABASE_URL']!,
   );
 
   static FirebaseOptions windows = FirebaseOptions(
@@ -73,5 +75,6 @@ class DefaultFirebaseOptions {
     authDomain: dotenv.env['FIREBASE_WINDOWS_AUTH_DOMAIN']!,
     storageBucket: dotenv.env['FIREBASE_WINDOWS_STORAGE_BUCKET']!,
     measurementId: dotenv.env['FIREBASE_WINDOWS_MEASUREMENT_ID']!,
+    databaseURL: dotenv.env['FIREBASE_WINDOWS_DATABASE_URL']!,
   );
 }

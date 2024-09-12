@@ -32,6 +32,9 @@ class TodosContainer extends StatefulWidget {
 class _TodosContainerState extends State<TodosContainer> {
   @override
   Widget build(BuildContext context) {
+    return StreamBuilder<Object>(
+        stream: null,
+        builder: (context, snapshot) {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -52,6 +55,7 @@ class _TodosContainerState extends State<TodosContainer> {
               child: const Icon(Icons.add),
             ),
           );
+        });
   }
 
   Future<void> _todoCreateDialogBuilder(BuildContext context) {

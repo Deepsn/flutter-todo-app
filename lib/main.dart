@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_todo_app/screens/loading_page.dart';
-import 'package:flutter_todo_app/screens/todos_page.dart';
+import 'screens/loading_page.dart';
+import 'screens/todos_page.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load();
   runApp(TodoApp());
 }

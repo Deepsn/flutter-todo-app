@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_todo_app/screens/loading.dart';
-import 'package:flutter_todo_app/screens/todos.dart';
+import 'package:flutter_todo_app/screens/loading_page.dart';
+import 'package:flutter_todo_app/screens/todos_page.dart';
 
 import 'firebase_options.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens/todo.dart';
+import '../screens/todo_page.dart';
 
 class TodoCard extends StatefulWidget {
   const TodoCard({super.key, required this.title, this.description});

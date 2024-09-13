@@ -31,7 +31,6 @@ class _TodoCreateState extends State<TodoCreate> {
 
   @override
   Widget build(BuildContext context) {
-
     outlinedBorder(String label) =>
         InputDecoration(border: OutlineInputBorder(), label: Text(label));
 
@@ -79,6 +78,7 @@ class _TodoCreateState extends State<TodoCreate> {
                     dueDate: state.value["dueDate"],
                     description: state.value["description"],
                   ));
+                  Navigator.pop(context);
                 },
                 child: const Text("Create")))
       ],

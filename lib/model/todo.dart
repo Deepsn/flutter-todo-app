@@ -17,7 +17,6 @@ class Todo {
 
   factory Todo.fromSnapshot(DataSnapshot snapshot) {
     Map<String, dynamic> value = jsonDecode(jsonEncode(snapshot.value));
-    print(value.runtimeType);
 
     return Todo(
       name: value["name"],

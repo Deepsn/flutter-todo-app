@@ -53,11 +53,6 @@ class _TodosContainerState extends State<TodosContainer> {
         builder: (context, snapshot) {
           final data = snapshot.data as List<Todo>?;
 
-          if (data != null) {
-            print("snapshot");
-            print(data.length);
-          }
-
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,

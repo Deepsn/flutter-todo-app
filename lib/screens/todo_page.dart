@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TodoPage extends StatelessWidget {
-  const TodoPage({super.key, required this.title});
+  const TodoPage({super.key, required this.title, this.description});
 
   final String title;
+  final String? description;
 
   @override
   Widget build(BuildContext context) {
@@ -11,10 +12,10 @@ class TodoPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Todo"),
       ),
-      body: Wrap(
+      body: Column(
         children: [
           Text(title),
-          Text("Todo description"),
+          description != null ? Text(description!) : Container(),
         ],
       ),
     );

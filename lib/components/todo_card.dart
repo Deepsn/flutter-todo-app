@@ -23,8 +23,7 @@ class _TodoCardState extends State<TodoCard> {
               context,
               MaterialPageRoute(
                   builder: (context) => TodoPage(
-                        title: widget.title,
-                      )));
+                      title: widget.title, description: widget.description)));
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

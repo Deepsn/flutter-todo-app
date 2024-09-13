@@ -2,15 +2,11 @@ import 'dart:async';
 
 import 'package:firebase_database/firebase_database.dart';
 
-import '../model/todo.dart';
+import '../model/todo.dart' show Todo;
+import '../utils/streamed_list.dart';
 
 class FirestoreTodoProvider {
-  StreamController<List<Todo>> _streamController = StreamController();
-  late Stream<List<Todo>> todos;
-
-  FirestoreTodoProvider() {
-    todos = _streamController.stream;
-  }
+  final todos = StreamedList<Todo>();
 
   Future<void> addTodo(Todo todo) {
     final todosRef = FirebaseDatabase.instance.ref("todos");
@@ -25,10 +21,14 @@ class FirestoreTodoProvider {
   }
 
   void loadTodos() {
-    
+    final todosRef = FirebaseDatabase.instance.ref("todos");
+
+    todosRef.onChildAdded.listen((event) {
+      todos.addToList(Todo.fromSnapshot(event.snapshot));
+    });
   }
 
   void dispose() {
-    _streamController.close();
+    todos.dispose();
   }
 }

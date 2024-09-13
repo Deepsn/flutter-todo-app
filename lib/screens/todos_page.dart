@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../components/todo_card.dart';
 import '../components/todo_create.dart';
+import '../data/todo_provider.dart';
+import '../model/todo.dart';
 
 class TodosPage extends StatelessWidget {
   const TodosPage({super.key});
@@ -30,25 +32,50 @@ class TodosContainer extends StatefulWidget {
 }
 
 class _TodosContainerState extends State<TodosContainer> {
+  final todoProvider = FirestoreTodoProvider();
+
+  @override
+  void initState() {
+    todoProvider.loadTodos();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    todoProvider.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
-        stream: null,
+        stream: todoProvider.todos.stream,
         builder: (context, snapshot) {
+          final data = snapshot.data as List<Todo>?;
+
+          if (data != null) {
+            print("snapshot");
+            print(data.length);
+          }
+
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
               title: Text(widget.title),
             ),
-            body: Column(
-              children: [
-                TodoCard(
-                  title: "Testing card",
-                  description: "Testing description",
-                ),
-                TodoCard(title: "gaming")
-              ],
-            ),
+            body: snapshot.connectionState != ConnectionState.active ||
+                    data == null
+                ? const RefreshProgressIndicator()
+                : ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final todo = data[index];
+
+                      return ListTile(
+                          title: TodoCard(
+                              title: todo.name, description: todo.description));
+                    },
+                  ),
             floatingActionButton: FloatingActionButton(
               onPressed: () => _todoCreateDialogBuilder(context),
               tooltip: "Create todo",

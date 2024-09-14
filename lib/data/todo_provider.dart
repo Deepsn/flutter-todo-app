@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:firebase_database/firebase_database.dart';
 
@@ -12,19 +13,30 @@ class FirestoreTodoProvider {
     final todosRef = FirebaseDatabase.instance.ref("todos");
     final newTodoRef = todosRef.push();
 
-    return newTodoRef.set({
-      "name": todo.name,
-      "completed": todo.completed,
-      "dueDate": todo.dueDate.millisecondsSinceEpoch,
-      "description": todo.description
-    });
+    return newTodoRef.set(todo.toObject());
+  }
+
+  Future<void> modifyTodo(String id, Map<String, dynamic> todo) {
+    final todoRef = FirebaseDatabase.instance.ref("todos/$id");
+
+    return todoRef.update(todo);
   }
 
   void loadTodos() {
     final todosRef = FirebaseDatabase.instance.ref("todos");
 
-    todosRef.onChildAdded.listen((event) {
-      todos.addToList(Todo.fromSnapshot(event.snapshot));
+    todosRef.onValue.listen((event) {
+      Map<String, dynamic> todosSnapshot =
+          jsonDecode(jsonEncode((event.snapshot.value))) as dynamic;
+
+      final todosObjects = todosSnapshot
+          .map((id, todo) {
+            return MapEntry(id, Todo.fromSnapshot(id, todo));
+          })
+          .values
+          .toList();
+
+      todos.set(todosObjects);
     });
   }
 

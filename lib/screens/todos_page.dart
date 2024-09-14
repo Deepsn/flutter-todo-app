@@ -67,8 +67,12 @@ class _TodosContainerState extends State<TodosContainer> {
                       final todo = data[index];
 
                       return ListTile(
+                          key: Key(
+                              "${todo.completed}${todo.name}${todo.description}${todo.dueDate}${todo.id}"),
                           title: TodoCard(
-                              title: todo.name, description: todo.description));
+                              todo: todo,
+                              title: todo.name,
+                              description: todo.description));
                     },
                   ),
             floatingActionButton: FloatingActionButton(

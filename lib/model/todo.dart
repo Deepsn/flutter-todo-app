@@ -1,8 +1,5 @@
-import 'dart:convert';
-
-import 'package:firebase_database/firebase_database.dart';
-
 class Todo {
+  final String id;
   final String name;
   final bool completed;
   final DateTime dueDate;
@@ -10,19 +7,28 @@ class Todo {
   final String? description;
 
   Todo(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.completed,
       required this.dueDate,
       this.description});
 
-  factory Todo.fromSnapshot(DataSnapshot snapshot) {
-    Map<String, dynamic> value = jsonDecode(jsonEncode(snapshot.value));
-
+  factory Todo.fromSnapshot(String id, Map<String, dynamic> todo) {
     return Todo(
-      name: value["name"],
-      dueDate: DateTime.fromMillisecondsSinceEpoch(value["dueDate"]),
-      description: value["description"],
-      completed: value["completed"],
+      id: id,
+      name: todo["name"],
+      dueDate: DateTime.fromMillisecondsSinceEpoch(todo["dueDate"]),
+      description: todo["description"],
+      completed: todo["completed"],
     );
+  }
+
+  Object toObject() {
+    return {
+      "name": name,
+      "completed": completed,
+      "dueDate": dueDate.millisecondsSinceEpoch,
+      "description": description
+    };
   }
 }

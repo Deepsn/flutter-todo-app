@@ -77,6 +77,7 @@ class _TodoCreateState extends State<TodoCreate> {
                     name: state.value["name"],
                     dueDate: state.value["dueDate"],
                     description: state.value["description"],
+                    id: '',
                   ));
                   Navigator.pop(context);
                 },

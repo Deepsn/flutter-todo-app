@@ -6,6 +6,11 @@ class StreamedList<T> {
 
   List<T> list = [];
 
+  set(List<T> value) {
+    list = value;
+    _controller.add(value);
+  }
+
   addToList(T object) {
     list.add(object);
     _controller.add(list);

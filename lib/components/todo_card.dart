@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import '../data/todo_provider.dart';
+import '../model/todo.dart';
 import '../screens/todo_page.dart';
 
 class TodoCard extends StatefulWidget {
-  const TodoCard({super.key, required this.title, this.description});
+  const TodoCard(
+      {super.key, required this.todo, required this.title, this.description});
 
+  // final String id;
+  final Todo todo;
   final String title;
   final String? description;
 
@@ -13,6 +18,15 @@ class TodoCard extends StatefulWidget {
 
 class _TodoCardState extends State<TodoCard> {
   bool isChecked = false;
+  final todoProvider = FirestoreTodoProvider();
+
+  @override
+  void initState() {
+    setState(() {
+      isChecked = widget.todo.completed;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +37,8 @@ class _TodoCardState extends State<TodoCard> {
               context,
               MaterialPageRoute(
                   builder: (context) => TodoPage(
-                      title: widget.title, description: widget.description)));
+                      title: widget.todo.name,
+                      description: widget.todo.description)));
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -32,8 +47,13 @@ class _TodoCardState extends State<TodoCard> {
               leading: Checkbox(
                   value: isChecked,
                   onChanged: (bool? value) {
+                    final newValue = value ?? false;
+
+                    todoProvider
+                        .modifyTodo(widget.todo.id, {"completed": newValue});
+
                     setState(() {
-                      isChecked = value ?? false;
+                      isChecked = newValue;
                     });
                   }),
               title: Text(widget.title),

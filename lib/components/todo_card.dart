@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import '../data/todo_provider.dart';
 import '../model/todo.dart';
 import '../screens/todo_page.dart';
+import 'confirm_modal.dart';
 
 class TodoCard extends StatefulWidget {
   const TodoCard(
       {super.key, required this.todo, required this.title, this.description});
 
-  // final String id;
   final Todo todo;
   final String title;
   final String? description;
@@ -17,8 +17,10 @@ class TodoCard extends StatefulWidget {
 }
 
 class _TodoCardState extends State<TodoCard> {
-  bool isChecked = false;
   final todoProvider = FirestoreTodoProvider();
+
+  bool isChecked = false;
+  bool isHovered = false;
 
   @override
   void initState() {
@@ -31,7 +33,13 @@ class _TodoCardState extends State<TodoCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      key: widget.key,
       child: InkWell(
+        onHover: (hovered) {
+          setState(() {
+            isHovered = hovered;
+          });
+        },
         onTap: () {
           Navigator.push(
               context,
@@ -40,27 +48,49 @@ class _TodoCardState extends State<TodoCard> {
                       title: widget.todo.name,
                       description: widget.todo.description)));
         },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: Checkbox(
-                  value: isChecked,
-                  onChanged: (bool? value) {
-                    final newValue = value ?? false;
+        child: ListTile(
+          trailing: isHovered
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      tooltip: "Delete",
+                      icon: const Icon(Icons.delete_forever),
+                      onPressed: () async {
+                        bool accepted = await showConfirmDialog(
+                            context, "Confirm delete",
+                            accept: "Delete", decline: "Cancel");
 
-                    todoProvider
-                        .modifyTodo(widget.todo.id, {"completed": newValue});
+                        if (!accepted) return;
+                        todoProvider.deleteTodo(widget.todo.id);
+                      },
+                    )
+                  ],
+                )
+              : null,
+          title: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Checkbox(
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      final newValue = value ?? false;
 
-                    setState(() {
-                      isChecked = newValue;
-                    });
-                  }),
-              title: Text(widget.title),
-              subtitle:
-                  widget.description != null ? Text(widget.description!) : null,
-            ),
-          ],
+                      todoProvider
+                          .modifyTodo(widget.todo.id, {"completed": newValue});
+
+                      setState(() {
+                        isChecked = newValue;
+                      });
+                    }),
+                title: Text(widget.title),
+                subtitle: widget.description != null
+                    ? Text(widget.description!)
+                    : null,
+              ),
+            ],
+          ),
         ),
       ),
     );

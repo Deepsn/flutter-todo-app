@@ -22,6 +22,12 @@ class FirestoreTodoProvider {
     return todoRef.update(todo);
   }
 
+  Future<void> deleteTodo(String id) {
+    final todoRef = FirebaseDatabase.instance.ref("todos/$id");
+
+    return todoRef.remove();
+  }
+
   void loadTodos() {
     final todosRef = FirebaseDatabase.instance.ref("todos");
 
